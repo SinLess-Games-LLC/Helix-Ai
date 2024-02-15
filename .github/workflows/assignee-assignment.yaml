@@ -1,9 +1,9 @@
 name: Assign people to issues and pull requests
 on:
   issues:
-    types: [opened, reopened, edited, labeled]
+    types: [opened, reopened]
   pull_request:
-    types: [opened, reopened, edited, labeled, synchronize]
+    types: [opened, reopened]
 
 jobs:
   assign:
@@ -17,5 +17,6 @@ jobs:
         with:
           numOfAssignee: 1
           allowSelfAssign: true
-          assignees: 'Sinless777'
+          assignees: Sinless777
+          abortIfPreviousAssignees: true
 
