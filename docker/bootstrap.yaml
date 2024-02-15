@@ -1,0 +1,27 @@
+version: '3.5'
+
+networks:
+  consul:
+    name: consul
+    driver: bridge
+  helix:
+    name: helix
+    driver: bridge
+
+services:
+  bootstrap:
+    build:
+      context: .
+      dockerfile: ./setup/Dockerfile
+    container_name: bootstrap
+    hostname: bootstrap
+    networks:
+      - helix
+    volumes:
+      - ./setup/config.yaml:/config/config.yaml
+      - ./setup/scripts/security/certs.sh:/home/docker/config/certs.sh
+      - ./certs:/certs/
+    command:
+      - /bin/bash
+      - -c
+      - /home/docker/config/certs.sh

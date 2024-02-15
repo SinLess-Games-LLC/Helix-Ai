@@ -1,0 +1,19 @@
+# Add files here to ignore them from prettier formatting
+/dist
+/coverage
+/.nx/cache
+.angular
+
+# Folders
+/.cache
+/.git
+/docs
+/misc
+/node_modules
+/temp
+
+/Helix-Ai-IaC/.ssh/
+/Helix-Ai-IaC/.task/
+/Helix-Ai-IaC/.venv/
+/Helix-Ai-IaC/kubeconfig
+

@@ -1,0 +1,52 @@
+# .github/labeler.yml
+
+frontend:
+  - changed-files:
+      - any-glob-to-any-file: 'apps/frontend/**/*'
+
+backend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'apps/gateway-api/**/*'
+
+entity:
+  - changed-files:
+      - any-glob-to-any-file: 'libs/entities/**/*'
+
+shared-ui:
+  - changed-files:
+      - any-glob-to-any-file: 'libs/shared-react-ui/**/*'
+
+Utilities:
+  - changed-files:
+      - any-glob-to-any-file: 'libs/helix-utilities/**/*'
+
+e2e:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'apps/frontend-e2e/**/*'
+          - 'apps/gateway-api-e2e/**/*'
+
+Documentation:
+  - changed-files:
+      - any-glob-to-any-file: 'DOCS/**/*'
+
+Docker:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docker/**/*.yml'
+          - 'apps/**/Dockerfile'
+
+Dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'package.json'
+          - '**/package.json'
+
+# Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
+feature:
+  - head-branch: ['^feature', 'feature']
+
+# Add 'release' label to any PR that is opened against the `main` branch
+release:
+  - base-branch: 'master'

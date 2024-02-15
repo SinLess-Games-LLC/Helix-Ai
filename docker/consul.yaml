@@ -1,0 +1,160 @@
+version: '3.5'
+
+networks:
+  consul:
+    external: true
+  helix:
+    external: true
+
+services:
+  consul-bootstrap:
+    build:
+      context: .
+      dockerfile: ./setup/Dockerfile
+    container_name: consul-bootstrap
+    hostname: consul-bootstrap
+    networks:
+      - consul
+      - helix
+    volumes:
+      - ./setup/config.yaml:/config/config.yaml
+      - ./setup/scripts/consul/consul.sh:/home/docker/config/consul.sh
+      - ./consul/generated:/consul/generated
+      - ./consul/config:/consul/config
+    command:
+      - /bin/bash
+      - /home/docker/config/consul.sh
+
+  consul-server-1:
+    image: hashicorp/consul:1.17.1
+    container_name: consul-server-1
+    hostname: consul-server-1
+    networks:
+      - consul
+      - helix
+    restart: always
+    depends_on:
+      consul-bootstrap:
+        condition: service_completed_successfully
+      vault-server:
+        condition: service_healthy
+    volumes:
+      - ./consul/config/server-1:/consul/config
+      - ./consul/generated/consul-certs/:/consul/config/certs/
+      - ./certs/certificate_authority/certificate_authority.crt:/consul/config/certs/ca.pem
+    ports:
+      - '8300:8300'
+      - '8500:8500'
+      - '8600:8600/tcp'
+      - '8600:8600/udp'
+    command: 'agent'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8500/v1/status/leader']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  consul-server-2:
+    image: hashicorp/consul:1.17.1
+    container_name: consul-server-2
+    hostname: consul-server-2
+    networks:
+      - consul
+      - helix
+    restart: always
+    depends_on:
+      consul-bootstrap:
+        condition: service_completed_successfully
+      vault-server:
+        condition: service_healthy
+      consul-server-1:
+        condition: service_healthy
+    volumes:
+      - ./consul/config/server-2:/consul/config
+      - ./consul/generated/consul-certs/:/consul/config/certs/
+      - ./certs/certificate_authority/certificate_authority.crt:/consul/config/certs/ca.pem
+    command: 'agent'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8500/v1/status/leader']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  consul-server-3:
+    image: hashicorp/consul:1.17.1
+    container_name: consul-server-3
+    hostname: consul-server-3
+    networks:
+      - consul
+      - helix
+    restart: always
+    depends_on:
+      consul-bootstrap:
+        condition: service_completed_successfully
+      vault-server:
+        condition: service_healthy
+      consul-server-1:
+        condition: service_healthy
+    volumes:
+      - ./consul/config/server-3:/consul/config
+      - ./consul/generated/consul-certs/:/consul/config/certs/
+      - ./certs/certificate_authority/certificate_authority.crt:/consul/config/certs/ca.pem
+    command: 'agent'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8500/v1/status/leader']
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  consul-client:
+    image: hashicorp/consul:1.17.1
+    container_name: consul-client
+    hostname: consul-client
+    restart: always
+    depends_on:
+      consul-bootstrap:
+        condition: service_completed_successfully
+      vault-server:
+        condition: service_healthy
+    volumes:
+      - ./consul/config/client-1:/consul/config
+      - ./consul/generated/consul-intro-token-key:/consul/token
+      - ./consul/generated/consul-certs/:/consul/config/certs/
+    networks:
+      - consul
+      - helix
+    command: 'agent'
+
+  vault-server:
+    image: hashicorp/vault:1.15.4
+    container_name: vault-server
+    hostname: vault-server
+    networks:
+      - consul
+      - helix
+    ports:
+      - '8200:8200'
+    cap_add:
+      - IPC_LOCK
+    environment:
+      VAULT_ADDR: 'http://vault-server:8200'
+      VAULT_API_ADDR: 'http://vault-server:8200'
+      VAULT_DEV_ROOT_TOKEN_ID: 'root'
+      CONSUL_HTTP_ADDR: 'consul-server1:8500'
+      CONSUL_HTTP_TOKEN: 'root'
+      VAULT_STORAGE_MYSQL_USERNAME: 'helix_ai'
+      VAULT_STORAGE_MYSQL_PASSWORD: 'zdqJ5zYmDEn1L07iAbBx'
+      VAULT_STORAGE_MYSQL_ADDRESS: 'mysql:3306'
+      VAULT_STORAGE_MYSQL_DATABASE: 'helix_ai'
+      VAULT_STORAGE_MYSQL_TABLE: 'helix_vault'
+    volumes:
+      - ./vault/config/vault-server-1.hcl:/vault/config/server.hcl
+      - ./vault/policies/policy.json:/vault/policies/policy.json
+      - ./consul/generated/consul-certs/:/vault/certs/
+      - ../.data/vault/logs:/vault/logs
+      - ../.data/vault/data:/vault/data
+    healthcheck:
+      test: ['CMD', 'vault', 'status']
+      interval: 10s
+      timeout: 5s
+      retries: 12

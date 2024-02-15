@@ -1,0 +1,17 @@
+version: '3.9'
+
+networks:
+  helix:
+    external: true
+
+services:
+  discord-bot:
+    build:
+      context: .
+      dockerfile: ./apps/discord-bot/Dockerfile
+    container_name: discord-bot
+    hostname: discord-bot
+    networks:
+      - helix
+    ports:
+      - '8001:8001'

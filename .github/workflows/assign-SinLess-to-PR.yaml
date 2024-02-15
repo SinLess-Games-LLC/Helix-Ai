@@ -1,0 +1,20 @@
+name: Assign SinLess-Games
+on:
+  issues:
+    types: [opened, reopened, edited, labeled, synchronize]
+  pull_request:
+    types: [opened, reopened, edited, labeled, synchronize]
+
+jobs:
+  assign:
+    runs-on: self-hosted
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: 'Auto-assign issue'
+        uses: pozil/auto-assign-issue@v1
+        with:
+          assignees: 'SinLess-Games'
+          numOfAssignee: 1
+          allowSelfAssign: true
