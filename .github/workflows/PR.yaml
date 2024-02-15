@@ -14,7 +14,7 @@ jobs:
           openai-token: ${{ secrets.OPENAI_TOKEN }}
 
       - name: Send Discord notification
-        uses: stegzilla/discord-notify@v2
+        uses: stegzilla/discord-notify@v4
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           title: New PR opened
