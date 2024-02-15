@@ -1,7 +1,7 @@
-name: Assign SinLess-Games
+name: Assign people to issues and pull requests
 on:
   issues:
-    types: [opened, reopened, edited, labeled, synchronize]
+    types: [opened, reopened, edited, labeled]
   pull_request:
     types: [opened, reopened, edited, labeled, synchronize]
 
@@ -15,6 +15,7 @@ jobs:
       - name: 'Auto-assign issue'
         uses: pozil/auto-assign-issue@v1
         with:
-          assignees: 'SinLess-Games'
           numOfAssignee: 1
           allowSelfAssign: true
+          assignees: 'Sinless777'
+

@@ -29,7 +29,9 @@ e2e:
 
 Documentation:
   - changed-files:
-      - any-glob-to-any-file: 'DOCS/**/*'
+      - any-glob-to-any-file:
+          - 'DOCS/**/*'
+          - '**/*.md'
 
 Docker:
   - changed-files:
@@ -42,6 +44,14 @@ Dependencies:
       - any-glob-to-any-file:
           - 'package.json'
           - '**/package.json'
+
+Libraries:
+  - changed-files:
+      - any-glob-to-any-file: 'libs/**/*'
+
+CI:
+  - changed-files:
+      - any-glob-to-any-file: '.github/workflows/**/*'
 
 # Add 'feature' label to any PR where the head branch name starts with `feature` or has a `feature` section in the name
 feature:
