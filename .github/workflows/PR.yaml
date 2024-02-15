@@ -7,16 +7,11 @@ jobs:
     name: ChatGPT code review
     runs-on: ubuntu-latest
     steps:
-      - name: GitHub Actions ChatGPT PR Reviewer
-        uses: osl-incubator/github-actions-chatgpt-pr-reviewer@1.0.3
+      - name: Review code
+        uses: flavius-dinu/chatgpt-pr-comment@1.0.0
         with:
-          openai_api_key: ${{ secrets.OPENAI_API_KEY }}  # required
-          openai_model: 'davinci-002'  # optional
-          openai_extra_criteria: |  # optional, use `;` for separate the criteria items
-            - prefer readable variable name instead of short names like `k` and `v`, when apply;
-            - verify `SOLID` principles design pattern violations, when apply;
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # required
-          github_pr_id: ${{ github.event.number }}  # required
+          github-token: ${{ secrets.GIT_TOKEN }}
+          openai-token: ${{ secrets.OPENAI_TOKEN }}
 
       - name: Send Discord notification
         uses: stegzilla/discord-notify@v2
