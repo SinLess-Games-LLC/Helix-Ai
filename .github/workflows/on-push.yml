@@ -9,11 +9,23 @@ on:
       - 'release/*'
       - 'support/*'
       - 'develop'
+      - 'master'
 
 env:
   GH_TOKEN: ${{ github.token }}
 
 jobs:
+  todos:
+    name:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: todo-actions
+        uses: dtinth/todo-actions@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TODO_ACTIONS_MONGO_URL: ${{ secrets.TODO_ACTIONS_MONGO_URL }}
+
   open-pr:
     runs-on: ubuntu-latest
 
