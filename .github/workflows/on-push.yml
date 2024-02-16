@@ -15,20 +15,22 @@ env:
   GH_TOKEN: ${{ github.token }}
 
 jobs:
+
   todos:
-    name:
+    name: Run TODO Generator
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: todo-actions
-        uses: dtinth/todo-actions@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TODO_ACTIONS_MONGO_URL: ${{ secrets.TODO_ACTIONS_MONGO_URL }}
+    - uses: actions/checkout@master
+    - name: Run tdg-github-action
+      uses: ribtoks/tdg-github-action@master
+      with:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO: ${{ github.repository }}
+        SHA: ${{ github.sha }}
+        REF: ${{ github.ref }}
 
   open-pr:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -64,4 +66,4 @@ jobs:
       - name: Create Pull Request
         if: steps.check_pr.outcome != 'success'
         run: |
-          gh pr create --base develop --head "${branch_name}" --title "${branch_name}" --body "This PR was automatically created by a GitHub Action."
+          gh pr create --base develop --head "${branch_name}" --title "${branch_name}" --body "This PR was automatically created by a GitHub Action. Please review and merge if approved."
