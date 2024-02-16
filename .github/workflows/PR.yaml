@@ -13,17 +13,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  review:
-    runs-on: ubuntu-latest
-    name: ChatGPT code reviewer
-    steps:
-      - name: ChatGTP code reviewer code
-        uses: fr33d00m/chatgpt-github-actions@v2-turbo
-        with:
-          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_pr_id: ${{ github.event.number }}
-
   message:
     name: Send Discord Notification
     runs-on: ubuntu-latest
