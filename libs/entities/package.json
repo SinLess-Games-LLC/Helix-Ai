@@ -2,7 +2,7 @@
   "name": "@helix/entities",
   "version": "0.0.1",
   "devDependencies": {
-    "@types/node": "20.11.20",
+    "@types/node": "20.11.30",
     "ts-node": "10.9.2",
     "typescript": "~5.3.0",
     "eslint-config-prettier": "^9.0.0"
