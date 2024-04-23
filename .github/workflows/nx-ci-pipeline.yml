@@ -14,6 +14,8 @@ permissions:
   contents: read
 
 env:
+  NX_BASE: origin/master
+  NX_HEAD: ${{ github.sha }}
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # this is needed if our pipeline publishes to npm
 
