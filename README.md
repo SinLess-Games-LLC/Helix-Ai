@@ -1,4 +1,4 @@
-<div  align="center"> <h1 size="7">
+<div align="center"> <h1 size="7">
     Helix AI
 </h1> </div>
 <br/>
