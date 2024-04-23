@@ -8,7 +8,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-
 # Needed for nx-set-shas within nx-cloud-main.yml, when run on the master branch
 permissions:
   actions: read
@@ -39,7 +38,7 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
 
       # This line is needed for nx affected to work when CI is running on a PR
-      - run: git branch --track main origin/main
+      - run: git branch --track master origin/master
         if: ${{ github.event_name == 'pull_request' }}
 
       - run: npx nx-cloud record -- nx format:check
