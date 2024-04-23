@@ -40,4 +40,4 @@ jobs:
       - run: git branch --track master origin/master
 
       - run: npx nx-cloud record -- nx format:check
-      - run: npx nx affected --base origin/master -t lint test build # e2e-ci
+      - run: npx nx affected --base origin/master --head ${{ github.sha }} -t lint test build # e2e-ci
