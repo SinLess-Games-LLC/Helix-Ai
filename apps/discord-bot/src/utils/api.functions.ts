@@ -4,8 +4,8 @@ import { MinimalStatusResponse } from '../typings/status.types'
 
 const logger = new HelixLogger({ name: 'api.functions' })
 
-const CloudflareStatusUrl: string = 'https://www.cloudflarestatus.com/api/v2/status.json'
-const DiscordStatusUrl: string = 'https://discordstatus.com/api/v2/status.json'
+const CloudflareStatusUrl = 'https://www.cloudflarestatus.com/api/v2/status.json'
+const DiscordStatusUrl = 'https://discordstatus.com/api/v2/status.json'
 
 export async function fetchDiscordStatus() {
   logger.info(`Fetching Discord Status`)

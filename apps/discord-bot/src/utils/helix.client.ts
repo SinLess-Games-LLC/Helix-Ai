@@ -26,13 +26,13 @@ export class HelixClient extends Client {
   private apiLogger = new HelixLogger({ name: 'API' })
 
   private api: Express = express()
-  public prefix: string = 'h!'
+  public prefix = 'h!'
   public commands: Collection<string, CommandType> = new Collection()
 
   public readonly config: HelixConfiguration = new HelixConfiguration()
   public readonly Colors: botColors = BotColors
   public readonly ErrorCodes: errCodes = ErrorCodes
-  public ready: boolean = false
+  public ready = false
   public cache: RedisClientType<
     {
       graph: any

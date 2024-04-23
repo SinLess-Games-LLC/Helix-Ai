@@ -25,7 +25,7 @@ export class DiscordGuild extends BaseEntity {
   prefix: string | null // string	the prefix of the guild, used when invoking slash commands
 
   @Column({ type: 'boolean' })
-  deleted: boolean = false
+  deleted = false
 
   @Column({ type: 'timestamp' })
   lastInteract: Date = new Date()
