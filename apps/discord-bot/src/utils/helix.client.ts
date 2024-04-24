@@ -13,13 +13,14 @@ import { CommandType } from '../typings/command.type'
 import * as path from 'path'
 import * as fs from 'fs'
 import { HealthRouter } from '../routers/health.router'
-import { initializeDatabase } from './database.functions'
-import { DataSource } from 'typeorm'
-import { getRedisClient } from './database.constants'
-import { RedisModules, RedisFunctions, RedisScripts } from 'redis'
-import { RedisClientType } from '@redis/client'
+import { dbConfig } from './database.constants'
+import { MikroORM, EntityManager, Options } from '@mikro-orm/core'
+import { MySqlDriver } from '@mikro-orm/mysql'
 
 export class HelixClient extends Client {
+  /**
+   * Loggers
+   */
   private logger: HelixLogger = new HelixLogger({ name: 'Helix Client' })
   private commandLogger = new HelixLogger({ name: 'Commands Register' })
   private eventLogger = new HelixLogger({ name: 'Event Register' })
@@ -33,21 +34,6 @@ export class HelixClient extends Client {
   public readonly Colors: botColors = BotColors
   public readonly ErrorCodes: errCodes = ErrorCodes
   public ready = false
-  public cache: RedisClientType<
-    {
-      graph: any
-      json: any
-      ft: any
-      ts: any
-      bf: any
-      cms: any
-      cf: any
-      tDigest: any
-      topK: any
-    } & RedisModules,
-    RedisFunctions,
-    RedisScripts
-  >
 
   public _commands: CommandType[] = []
   public readonly _token: string = this.config.discord.application.client.bot.token
@@ -66,7 +52,12 @@ export class HelixClient extends Client {
     intents: this._intents,
     shards: 'auto',
   }
-  public Database: DataSource
+
+  /**
+   * Database
+   */
+  public orm: MikroORM<MySqlDriver>
+  public em: EntityManager<MySqlDriver>
 
   constructor(options: ClientOptions) {
     super(options)
@@ -76,6 +67,7 @@ export class HelixClient extends Client {
     this.logger.info('Setting ready')
     return (this.ready = bool)
   }
+
   private async _init() {
     try {
       this.fetchRouters()
@@ -83,8 +75,8 @@ export class HelixClient extends Client {
       await this._registerCommands()
       this.logger.info(`Registered ${this.commands.size} commands`)
       this._registerEvents()
-      await initializeDatabase()
-      this.cache = await getRedisClient()
+      this.orm = await MikroORM.init(dbConfig)
+      this.em = this.orm.em
     } catch (err: unknown) {
       this.logger.critical('Failed to initialize Helix Client')
       this.logger.error(err as string)
