@@ -9,4 +9,3 @@ export class Pastebin extends BaseEntity {
   @Property({ columnType: 'int', default: -1 })
   lifetime: number
 }
-

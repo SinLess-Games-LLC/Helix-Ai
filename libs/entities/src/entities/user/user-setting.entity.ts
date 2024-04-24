@@ -4,11 +4,11 @@ import { BaseEntity } from '../base.entity'
 @Entity()
 export class UserSetting extends BaseEntity {
   @Property({ type: 'boolean', default: false })
-  newsletter: boolean = false
+  newsletter = false
 
   @Property({ type: 'boolean', default: false })
-  premium: boolean = false
+  premium = false
 
   @Property({ type: 'boolean', default: false })
-  twoFactorAuthentication: boolean = false
+  twoFactorAuthentication = false
 }

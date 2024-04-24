@@ -50,8 +50,8 @@ export class UserProfile extends BaseEntity {
   news_added: News[] = []
 
   @Property({ type: 'boolean', default: false })
-  email_verified: boolean = false
+  email_verified = false
 
   @Property({ type: 'boolean', default: false })
-  age_verified: boolean = false
+  age_verified = false
 }
