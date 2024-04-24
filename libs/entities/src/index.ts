@@ -16,6 +16,7 @@ import {
   Pastebin,
   Image,
   Health,
+  BaseEntity,
 } from './entities'
 
 export const entities = [
@@ -36,6 +37,7 @@ export const entities = [
   Pastebin,
   Image,
   Health,
+  BaseEntity,
 ]
 
 /**
@@ -67,14 +69,7 @@ export {
  *
  * @description Interface exports for each entity
  */
-export type {
-  MicroserviceInterface,
-  NewsInterface,
-  TechnologyInterface,
-  UserInterface,
-  UserProfileInterface,
-  UserSettingInterface,
-} from './entities'
+export type { MicroserviceInterface, NewsInterface, TechnologyInterface } from './entities'
 
 /**
  * Enums

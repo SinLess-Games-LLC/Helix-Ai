@@ -1,16 +1,16 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
+import { Entity, Property, OneToMany, ManyToOne } from '@mikro-orm/core'
 import { DiscordDailyStatistics } from './dailyStats.entity'
 import { DiscordMonthlyStatistics } from './monthlyStats.entity'
 import { BaseEntity } from '../../base.entity'
 
 @Entity()
 export class DiscordWeeklyStatistics extends BaseEntity {
-  @Column('int')
+  @Property({ columnType: 'int' })
   week: number
 
   @OneToMany(() => DiscordDailyStatistics, dailyStats => dailyStats.week)
-  dailyStats: DiscordDailyStatistics[]
+  dailyStats: DiscordDailyStatistics[] = []
 
-  @ManyToOne(() => DiscordMonthlyStatistics, month => month.weeklyStats)
-  month: DiscordMonthlyStatistics
+  @ManyToOne(() => DiscordMonthlyStatistics, { fieldName: 'month' })
+  month!: DiscordMonthlyStatistics
 }

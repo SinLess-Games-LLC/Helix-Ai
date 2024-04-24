@@ -1,27 +1,14 @@
-import { Column, Entity } from 'typeorm'
+import { Entity, Property } from '@mikro-orm/core'
 import { BaseEntity } from '../base.entity'
 
-export interface UserSettingInterface {
-  sid: number
-  newsletter: boolean
-  premium: boolean
-  twoFactorAuthentication: boolean
-  updatedAt: Date
-  createdAt: Date
-}
-
 @Entity()
-/**
- * @class UserSetting
- * @description UserSetting entity
- */
 export class UserSetting extends BaseEntity {
-  @Column({ type: 'boolean', default: false })
-  newsletter: boolean
+  @Property({ type: 'boolean', default: false })
+  newsletter: boolean = false
 
-  @Column({ type: 'boolean', default: false })
-  premium: boolean
+  @Property({ type: 'boolean', default: false })
+  premium: boolean = false
 
-  @Column({ type: 'boolean', default: false })
-  twoFactorAuthentication: boolean
+  @Property({ type: 'boolean', default: false })
+  twoFactorAuthentication: boolean = false
 }

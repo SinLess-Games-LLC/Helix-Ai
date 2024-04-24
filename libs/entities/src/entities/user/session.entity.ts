@@ -1,29 +1,29 @@
-import { Entity, Column, ManyToOne, ValueTransformer } from 'typeorm'
+import { Entity, PrimaryKey, Property, ManyToOne } from '@mikro-orm/core'
 import { User } from './user.entity'
 import { BaseEntity } from '../base.entity'
 
-const transformer: Record<'date' | 'bigint', ValueTransformer> = {
-  date: {
-    from: (date: string | null) => date && new Date(parseInt(date, 10)),
-    to: (date?: Date) => date?.valueOf().toString(),
-  },
-  bigint: {
-    from: (bigInt: string | null) => bigInt && parseInt(bigInt, 10),
-    to: (bigInt?: number) => bigInt?.toString(),
-  },
-}
-
-@Entity({ name: 'sessions' })
+@Entity({ tableName: 'sessions' })
 export class Session extends BaseEntity {
-  @Column({ type: 'text' })
+  @PrimaryKey({ type: 'uuid' })
+  id!: string
+
+  @Property({ type: 'text' })
   sessionToken!: string
 
-  @Column({ type: 'uuid' })
+  @Property({ type: 'uuid' })
   userId!: string
 
-  @Column({ type: 'text', transformer: transformer.date })
-  expires!: string
+  private _expires!: string
 
-  @ManyToOne(() => User, user => user.sessions)
+  @Property({ type: 'text' })
+  get expires(): string {
+    return this._expires
+  }
+
+  set expires(value: string) {
+    this._expires = value
+  }
+
+  @ManyToOne(() => User, { fieldName: 'uuid' })
   user!: User
 }

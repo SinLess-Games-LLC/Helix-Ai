@@ -1,39 +1,39 @@
-import { Column, Entity, ManyToOne } from 'typeorm'
+import { Entity, Property, ManyToOne } from '@mikro-orm/core'
 import { DiscordWeeklyStatistics } from './weeklyStats.entity'
 import { BaseEntity } from '../../base.entity'
 
 @Entity()
 export class DiscordDailyStatistics extends BaseEntity {
-  @Column('int')
+  @Property({ columnType: 'int' })
   guildId: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   kicks: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   warnings: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   bans: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   channels: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   emojis: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   stickers: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   members: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   roles: number
 
-  @Column('int')
+  @Property({ columnType: 'int' })
   bots: number
 
-  @ManyToOne(() => DiscordWeeklyStatistics, weeklyStats => weeklyStats.dailyStats)
-  week: DiscordWeeklyStatistics
+  @ManyToOne(() => DiscordWeeklyStatistics, { fieldName: 'week' })
+  week!: DiscordWeeklyStatistics
 }

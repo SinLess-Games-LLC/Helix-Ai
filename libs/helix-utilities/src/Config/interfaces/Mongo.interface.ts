@@ -1,3 +1,4 @@
+import { MongoDriver } from '@mikro-orm/mongodb'
 import { ConfigNetInterface } from './Net.interface'
 import { ConfigUserInterface } from './User.interface'
 
@@ -7,6 +8,7 @@ import { ConfigUserInterface } from './User.interface'
  * @interface ConfigMongoInterface
  */
 export interface ConfigMongoInterface {
+  driver: typeof MongoDriver
   /**
    * Network configuration for MongoDB.
    *
@@ -35,5 +37,6 @@ export interface ConfigMongoInterface {
      * @type {string}
      */
     name: string
+    URI: string
   }
 }

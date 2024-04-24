@@ -1,15 +1,12 @@
-import { Entity, Column } from 'typeorm'
+import { Entity, Property } from '@mikro-orm/core'
 import { BaseEntity } from '../base.entity'
-
-// ===========================================
-// ================= Entity ==================
-// ===========================================
 
 @Entity()
 export class Pastebin extends BaseEntity {
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   editCode: string
 
-  @Column({ type: 'int', default: -1 })
+  @Property({ columnType: 'int', default: -1 })
   lifetime: number
 }
+
