@@ -1,4 +1,4 @@
-FROM python:3.12.2-alpine
+FROM python:3.12.3-alpine
 
 # Install required packages
 RUN apk update && apk upgrade 
