@@ -51,8 +51,10 @@ jobs:
             ~/.cache/Cypress # needed for the Cypress binary
           key: npm-dependencies-${{ hashFiles('package-lock.json') }}
 
-      - run: git branch --track master
+      # This line is needed for nx affected to work when CI is running on a PR
+      - run: git branch --track master origin/master
       - uses: nrwl/nx-set-shas@v3
 
       - run: npx nx-cloud record -- nx format:check
+        if: ${{ github.event_name == 'pull_request' }}
       - run: npx nx affected --base origin/master --head ${{ github.sha }} -t lint test build # e2e-ci
