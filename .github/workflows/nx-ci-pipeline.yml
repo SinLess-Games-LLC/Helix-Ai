@@ -30,7 +30,7 @@ jobs:
 
       # Restore Cache Npm Dependencies
       - name: Restore cached npm dependencies
-        uses: actions/cache/restore@v3
+        uses: actions/cache/restore@v4
         with:
           path: |
             node_modules
@@ -43,7 +43,7 @@ jobs:
 
       # Cache npm deps
       - name: Cache npm dependencies
-        uses: actions/cache/save@v3
+        uses: actions/cache/save@v4
         with:
           path: |
             node_modules
