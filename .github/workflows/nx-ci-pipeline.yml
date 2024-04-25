@@ -53,7 +53,7 @@ jobs:
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track master origin/master
         if: ${{ github.event_name == 'pull_request' }}
-      - uses: nrwl/nx-set-shas@v3
+      - uses: nrwl/nx-set-shas@v4
 
       - run: npx nx-cloud record -- nx format:check
       - run: npx nx affected --base origin/master --head ${{ github.sha }} -t lint test build # e2e-ci
