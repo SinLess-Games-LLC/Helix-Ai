@@ -35,7 +35,6 @@
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SinLess-Games-LLC/Helix-Ai/nx-ci-pipeline.yml?style=for-the-badge&label=Nx%20Pipeline%20Status)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SinLess-Games-LLC/Helix-Ai/label.yml?style=for-the-badge&label=Label%20PR%20workflow)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SinLess-Games-LLC/Helix-Ai/codeql.yml?style=for-the-badge&label=CodeQL%20pipeline)
-[![Assign SinLess-Games](https://img.shields.io/github/actions/workflow/status/SinLess-Games-LLC/Helix-Ai/assignee-assignment.yaml?style=for-the-badge&label=Assignees%20pipeline)](https://github.com/SinLess-Games-LLC/Helix-Ai/actions/workflows/assign-SinLess-to-PR.yaml)
 
 #### Forks and Stars
 
