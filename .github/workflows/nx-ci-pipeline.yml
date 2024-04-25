@@ -32,7 +32,7 @@ jobs:
       - run: npm install @nx/nx-linux-x64-gnu --force
       - run: npm ci
 
-      - run: git branch --track master origin/master
+      - run: git branch --track master
       - uses: nrwl/nx-set-shas@v3
 
       - run: npx nx-cloud record -- nx format:check
