@@ -6,7 +6,6 @@ on:
       - master
       - develop
   pull_request:
-    types: [opened, synchronize, reopened]
 
 # Needed for nx-set-shas within nx-cloud-main.yml, when run on the master branch
 permissions:
@@ -28,16 +27,33 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      # This line enables distribution
-      # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "e2e-ci" targets have been requested
-      # - run: npx nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="build"
+
+      # Restore Cache Npm Dependencies
+      - name: Restore cached npm dependencies
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress
+          key: npm-dependencies-${{ hashFiles('package-lock.json') }}
+
+      # Install Packages
       - run: npm install @nx/nx-linux-x64-gnu --force
       - run: npm ci
 
-      - uses: nrwl/nx-set-shas@v3
+      # Cache npm dependencies
+      - name: Cache npm dependencies
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress
+          key: npm-dependencies-${{ hashFiles('package-lock.json') }}
 
       # This line is needed for nx affected to work when CI is running on a PR
       - run: git branch --track master origin/master
+        if: ${{ github.event_name == 'pull_request' }}
+      - uses: nrwl/nx-set-shas@v3
 
       - run: npx nx-cloud record -- nx format:check
       - run: npx nx affected --base origin/master --head ${{ github.sha }} -t lint test build # e2e-ci
