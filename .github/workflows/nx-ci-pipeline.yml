@@ -28,9 +28,28 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      
+
+      # Restore Cache Npm Dependencies
+      - name: Restore cached npm dependencies
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress # needed for the Cypress binary
+          key: npm-dependencies-${{ hashFiles('package-lock.json') }}
+
+      # Install Packages
       - run: npm install @nx/nx-linux-x64-gnu --force
       - run: npm ci
+
+      # Cache npm deps
+      - name: Cache npm dependencies
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            node_modules
+            ~/.cache/Cypress # needed for the Cypress binary
+          key: npm-dependencies-${{ hashFiles('package-lock.json') }}
 
       - run: git branch --track master
       - uses: nrwl/nx-set-shas@v3
