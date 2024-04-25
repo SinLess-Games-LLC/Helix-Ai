@@ -1,0 +1,104 @@
+version: '3'
+services:
+  ui:
+    image: featbit/featbit-ui:latest
+    environment:
+      - API_URL=http://localhost:5000
+      - EVALUATION_URL=http://localhost:5100
+    depends_on:
+      - api-server
+    ports:
+      - '8081:80'
+    networks:
+      - helix
+
+  api-server:
+    image: featbit/featbit-api-server:latest
+    environment:
+      - MongoDb__ConnectionString=mongodb://admin:password@mongodb:27017
+      - MongoDb__Database=featbit
+      - Kafka__Producer__bootstrap.servers=kafka-2:9092
+      - Kafka__Producer__sasl.username=kafka
+      - Kafka__Producer__sasl.password=bitnami
+      - Kafka__Producer__sasl.mechanism=PLAIN
+      - Kafka__Producer__security.protocol=SASL_PLAINTEXT
+      - Kafka__Consumer__bootstrap.servers=kafka-2:9092
+      - Kafka__Consumer__sasl.username=kafka
+      - Kafka__Consumer__sasl.password=bitnami
+      - Kafka__Consumer__sasl.mechanism=PLAIN
+      - Kafka__Consumer__security.protocol=SASL_PLAINTEXT
+      - Redis__ConnectionString=redis:6379
+      - OLAP__ServiceHost=http://da-server
+    depends_on:
+      mongodb:
+        condition: service_started
+    ports:
+      - '5000:5000'
+    networks:
+      - helix
+
+  evaluation-server:
+    image: featbit/featbit-evaluation-server:latest
+    environment:
+      - MongoDb__ConnectionString=mongodb://admin:password@mongodb:27017
+      - MongoDb__Database=featbit
+      - Kafka__Producer__bootstrap.servers=kafka-1:9092
+      - Kafka__Producer__sasl.username=kafka
+      - Kafka__Producer__sasl.password=bitnami
+      - Kafka__Producer__sasl.mechanism=PLAIN
+      - Kafka__Producer__security.protocol=SASL_PLAINTEXT
+      - Kafka__Consumer__bootstrap.servers=kafka-1:9092
+      - Kafka__Consumer__sasl.username=kafka
+      - Kafka__Consumer__sasl.password=bitnami
+      - Kafka__Consumer__sasl.mechanism=PLAIN
+      - Kafka__Consumer__security.protocol=SASL_PLAINTEXT
+      - Redis__ConnectionString=redis:6379
+    depends_on:
+      mongodb:
+        condition: service_started
+    ports:
+      - '5100:5100'
+    networks:
+      - helix
+
+  da-server:
+    image: featbit/featbit-data-analytics-server:latest
+    depends_on:
+      - mongodb
+    ports:
+      - '8200:80'
+    networks:
+      - helix
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      MONGO_URI: mongodb://admin:password@mongodb:27017
+      MONGO_INITDB_DATABASE: featbit
+      MONGO_HOST: mongodb
+      KAFKA_HOSTS: kafka-0:9092
+      KAFKA_SECURITY_PROTOCOL: SASL_PLAINTEXT
+      KAFKA_SASL_MECHANISM: PLAIN
+      KAFKA_SASL_USER: kafka
+      KAFKA_SASL_PASSWORD: bitnami
+      CHECK_DB_LIVNESS: true
+
+  mongodb:
+    image: mongo:5.0.14
+    restart: on-failure
+    ports:
+      - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=featbit
+    volumes:
+      - '../.data/mongoDB:/data/db'
+      - ./infra/mongodb/docker-entrypoint-initdb.d/:/docker-entrypoint-initdb.d/
+    networks:
+      - helix
+
+networks:
+  helix:
+    name: helix
+    external: true

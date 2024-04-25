@@ -1,7 +1,10 @@
 import type { AppType } from 'next/app'
 import { trpc } from '../utils/trpc'
+import { FeatBitProvider } from '@helix/helix-utilities'
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+FeatBitProvider.start()
+
+const MyApp: AppType = ({ Component, pageProps }: { Component: any; pageProps: any }) => {
   return <Component {...pageProps} />
 }
 

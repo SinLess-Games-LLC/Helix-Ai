@@ -9,9 +9,11 @@ services:
     image: redis/redis-stack-server:7.2.0-v6
     container_name: redis
     hostname: redis
+    restart: on-failure
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
     networks:
       - helix
-    restart: always
     volumes:
       - ../.data/redis:/data
     ports:
