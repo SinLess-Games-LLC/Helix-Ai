@@ -16,6 +16,11 @@ import { HealthRouter } from '../routers/health.router'
 import { dbConfig } from './database.constants'
 import { MikroORM, EntityManager, Options } from '@mikro-orm/core'
 import { MySqlDriver } from '@mikro-orm/mysql'
+import * as trpcExpress from '@trpc/server/adapters/express'
+import { initTRPC } from '@trpc/server'
+
+const createContext = async ({ req, res }: trpcExpress.CreateExpressContextOptions) => ({}) // no context
+type Context = Awaited<ReturnType<typeof createContext>>
 
 export class HelixClient extends Client {
   /**
@@ -63,6 +68,12 @@ export class HelixClient extends Client {
     super(options)
   }
 
+  private trpc = initTRPC.context<Context>().create()
+  public appProcedure = this.trpc.procedure
+  public appRouter = this.trpc.router({
+    greeting: this.appProcedure.query(() => 'hello tRPC v11!'),
+  })
+
   public setReady(bool: boolean) {
     this.logger.info('Setting ready')
     return (this.ready = bool)
@@ -75,6 +86,15 @@ export class HelixClient extends Client {
       await this._registerCommands()
       this.logger.info(`Registered ${this.commands.size} commands`)
       this._registerEvents()
+      this.logger.info('Registered Events')
+      this.logger.info('Initializing Helix API')
+      this.api.use(
+        '/trpc',
+        trpcExpress.createExpressMiddleware({
+          router: this.appRouter,
+          createContext: createContext,
+        })
+      )
       this.orm = await MikroORM.init(dbConfig)
       this.em = this.orm.em
     } catch (err: unknown) {
@@ -104,7 +124,10 @@ export class HelixClient extends Client {
 
       // checks if it is in the dist directory
       if (commandFileDir.toString().includes('dist')) {
+        this.commandLogger.debug(`Reading command files directory: ${commandFileDir}`)
         this.commandLogger.info(`Command files directory is the distribution directory.`)
+      } else {
+        this.commandLogger.debug(`Reading command files directory: ${commandFileDir}`)
       }
 
       // read command files directory
@@ -151,7 +174,7 @@ export class HelixClient extends Client {
       this.commandLogger.debug(`Commands: ${JSON.stringify(commands)}`)
 
       this.commandLogger.info('pushing commands to Discord')
-      // await this._rest.put(Routes.applicationCommands('1143176646074052698'), { body: commands })
+      await this._rest.put(Routes.applicationCommands('1143176646074052698'), { body: commands })
       this.commandLogger.info('Registered global commands')
     } catch (err) {
       this.commandLogger.error(`An error occurred while registering global commands: \n${err}`)

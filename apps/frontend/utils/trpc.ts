@@ -23,10 +23,17 @@ export const trpc = createTRPCNext<AppRouter>({
     return {
       links: [
         httpBatchLink({
+          /**
+           * If you want to use SSR, you need to use the server's full URL
+           * @link https://trpc.io/docs/v11/ssr
+           **/
           url: getBaseUrl() + '/api/trpc',
         }),
       ],
     }
   },
-  ssr: true,
+  /**
+   * @link https://trpc.io/docs/v11/ssr
+   **/
+  ssr: false,
 })

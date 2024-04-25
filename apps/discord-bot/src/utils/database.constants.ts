@@ -2,6 +2,7 @@ import { Options } from '@mikro-orm/core'
 import { HelixLogger, HelixConfiguration } from '@helix/helix-utilities'
 import { entities } from '@helix/entities'
 import { MySqlDriver } from '@mikro-orm/mysql'
+import { RedisCacheAdapter } from 'mikro-orm-cache-adapter-redis'
 
 const logger = new HelixLogger({ name: 'database.constants' })
 const config = new HelixConfiguration()
@@ -17,4 +18,17 @@ export const dbConfig: Options<MySqlDriver> = {
   charset: 'utf8mb4',
   debug: config.general.debug,
   logger: logger.debug.bind(logger),
+  metadataCache: {
+    enabled: true,
+    pretty: true,
+  },
+  resultCache: {
+    adapter: RedisCacheAdapter,
+    options: {
+      keyPrefix: 'mikro',
+      debug: false,
+      host: config.database.redis.net.host,
+      port: config.database.redis.net.port,
+    },
+  },
 }
