@@ -1,5 +1,6 @@
 import { ConfigUserInterface } from './User.interface'
 import { ConfigNetInterface } from './Net.interface'
+import { MySqlDriver } from '@mikro-orm/mysql'
 
 /**
  * Configuration interface for MySQL settings.
@@ -7,6 +8,7 @@ import { ConfigNetInterface } from './Net.interface'
  * @interface ConfigMysqlInterface
  */
 export interface ConfigMysqlInterface {
+  driver: typeof MySqlDriver
   /**
    * The connection URL for MySQL.
    *

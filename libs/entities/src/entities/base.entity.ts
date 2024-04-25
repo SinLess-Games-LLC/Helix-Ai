@@ -1,13 +1,13 @@
-import { CreateDateColumn, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
 
+@Entity()
 export abstract class BaseEntity {
-  @PrimaryGeneratedColumn()
-  @PrimaryColumn()
-  sid: number
+  @PrimaryKey()
+  _id!: number
 
-  @UpdateDateColumn()
-  updated_at: Date
+  @Property({ onUpdate: () => new Date() })
+  updated_at: Date = new Date()
 
-  @CreateDateColumn()
-  created_at: Date
+  @Property({ type: 'date' })
+  created_at: Date = new Date()
 }

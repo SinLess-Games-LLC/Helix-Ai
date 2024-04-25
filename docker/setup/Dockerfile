@@ -1,8 +1,8 @@
 FROM python:3.12.2-alpine
 
 # Install required packages
-RUN apk --no-cache add \
-        wget curl git make sudo openssl zip m4 autoconf automake jq consul bash bind-tools
+RUN apk update && apk upgrade 
+RUN apk --no-cache add wget curl git make sudo openssl zip m4 autoconf automake jq bash bind-tools
 
 # Install Python3 packages
 RUN pip3 install --upgrade pip yq shyaml

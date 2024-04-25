@@ -65,7 +65,8 @@ declare namespace NodeJS {
     MONGODB_HOST: string
     MONGODB_PASSWORD: string
     MONGODB_PORT: string
-    MONGODB_USER: string
+    MONGODB_USERNAME: string
+    MONGODB_URI: string
     MYSQL_DATABASE: string
     MYSQL_DATABASE_URL: string
     MYSQL_HOST: string

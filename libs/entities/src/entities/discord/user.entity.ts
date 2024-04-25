@@ -1,39 +1,38 @@
-import { Column, Entity } from 'typeorm'
-import { Snowflake } from 'discord-api-types/globals'
+import { Entity, Property } from '@mikro-orm/core'
 import { BaseEntity } from '../base.entity'
 
 @Entity()
 export class DiscordUser extends BaseEntity {
-  @Column({ unique: true, type: 'bigint' })
-  discord_id: Snowflake
+  @Property({ unique: true, columnType: 'text' })
+  discord_id: string
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   username: string
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   discriminator: string
 
-  @Column({ type: 'int' })
+  @Property({ columnType: 'int' })
   discord_account_age: number
 
-  @Column({ type: 'int' })
+  @Property({ columnType: 'int' })
   helix_account_age: number
 
-  @Column({ type: 'boolean' })
+  @Property({ columnType: 'boolean' })
   discord_verified: boolean
 
-  @Column({ type: 'boolean' })
+  @Property({ columnType: 'boolean' })
   helix_verified: boolean
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   email: string
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   system_warnings: number
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   display_name: string
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Property({ columnType: 'timestamp', defaultRaw: 'CURRENT_TIMESTAMP' })
   lastInteract: Date
 }

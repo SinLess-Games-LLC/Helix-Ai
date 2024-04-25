@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, ManyToOne } from 'typeorm'
+import { Entity, Property, BeforeCreate, ManyToOne } from '@mikro-orm/core'
 import { TechCategory } from '../../enums'
 import { UserProfile } from '../user'
 import slugify from 'slugify'
@@ -36,49 +36,38 @@ export interface TechnologyInterface {
  * - etc.
  */
 export class Technology extends BaseEntity {
-  @Column('text')
+  @Property()
   name: string
 
-  @Column('text')
+  @Property()
   description: string
 
-  @Column('text')
+  @Property()
   content: string
 
-  @Column('text')
+  @Property()
   image: string
 
-  @Column('text')
+  @Property()
   alt: string
 
-  @Column({
-    type: 'enum',
-    enum: TechCategory,
-    default: TechCategory.Other,
-  })
+  @Property({ type: 'enum', default: TechCategory.Other })
   category1: TechCategory
 
-  @Column({
-    type: 'enum',
-    enum: TechCategory,
-    default: TechCategory.Other,
-  })
+  @Property({ type: 'enum', default: TechCategory.Other })
   category2: TechCategory
 
-  @Column('text')
+  @Property()
   website: string
 
-  @Column('text')
+  @Property()
   slug: string
 
-  @ManyToOne(() => UserProfile, user => user.technologies_added, {
-    cascade: true,
-  })
-  added_by: number
+  @ManyToOne(() => UserProfile)
+  added_by!: UserProfile
 
-  @BeforeInsert()
+  @BeforeCreate()
   generateSlug() {
     this.slug = slugify(this.name, '_')
-    return this.slug
   }
 }

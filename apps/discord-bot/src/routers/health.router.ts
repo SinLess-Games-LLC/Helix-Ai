@@ -46,8 +46,6 @@ const logger = new HelixLogger({ name: 'health.router' })
       status: {
         indicator: '',
         description: checkSystemStatus(
-          // helix.Database.isInitialized,
-          helix.cache.isReady,
           helix.ready,
           statusCompareToBoolean(ds),
           statusCompareToBoolean(cs)
@@ -59,7 +57,6 @@ const logger = new HelixLogger({ name: 'health.router' })
       },
       Helix: {
         // database: status(helix.Database.isInitialized),
-        cache: status(helix.cache.isReady),
         bot: status(helix.ready),
       },
     })

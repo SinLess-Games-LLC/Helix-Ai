@@ -1,26 +1,26 @@
+import { Entity, Property } from '@mikro-orm/core'
 import { BaseEntity } from '../base.entity'
-import { Column, Entity } from 'typeorm'
 
 @Entity()
 export class Health extends BaseEntity {
-  @Column()
+  @Property()
   systemStatus: string
 
-  @Column()
+  @Property()
   systemVersion: string
 
-  @Column()
+  @Property()
   systemUptime: string
 
-  @Column()
+  @Property()
   systemCPU: string
 
-  @Column()
+  @Property()
   systemMemory: string
 
-  @Column()
+  @Property()
   latency: string
 
-  @Column()
+  @Property()
   day: Date
 }

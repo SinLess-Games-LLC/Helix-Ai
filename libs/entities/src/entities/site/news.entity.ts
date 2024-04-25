@@ -1,5 +1,5 @@
+import { Entity, Property, BeforeCreate, ManyToOne } from '@mikro-orm/core'
 import { UserProfile } from '../user'
-import { BeforeInsert, Column, Entity, ManyToOne } from 'typeorm'
 import slugify from 'slugify'
 import { BaseEntity } from '../base.entity'
 
@@ -15,32 +15,29 @@ export interface NewsInterface {
 
 @Entity()
 export class News extends BaseEntity {
-  @Column('text')
+  @Property()
   name: string
 
-  @Column('text')
+  @Property()
   description: string
 
-  @Column('text')
+  @Property()
   content: string
 
-  @Column('text')
+  @Property()
   image: string
 
-  @Column('text')
+  @Property()
   alt: string
 
-  @Column('text')
+  @Property()
   slug: string
 
-  @ManyToOne(() => UserProfile, userProfile => userProfile.news_added, {
-    cascade: true,
-  })
-  added_by: number
+  @ManyToOne(() => UserProfile)
+  added_by!: UserProfile
 
-  @BeforeInsert()
-  slugify() {
+  @BeforeCreate()
+  async slugify() {
     this.slug = slugify(this.name, '_')
-    return this.slug
   }
 }

@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, ManyToOne } from 'typeorm'
+import { Entity, Property, ManyToOne, BeforeUpsert } from '@mikro-orm/core'
 import { UserProfile } from '../user'
 import slugify from 'slugify'
 import { BaseEntity } from '../base.entity'
@@ -16,29 +16,29 @@ export interface MicroserviceInterface {
 
 @Entity()
 export class Microservice extends BaseEntity {
-  @Column({ type: 'text' })
+  @Property()
   name: string
 
-  @Column({ type: 'text' })
+  @Property()
   description: string
 
-  @Column({ type: 'text' })
+  @Property()
   content: string
 
-  @Column({ type: 'text' })
+  @Property()
   image: string
 
-  @Column({ type: 'text' })
+  @Property()
   alt: string
 
-  @ManyToOne(() => UserProfile, userProfile => userProfile.microservices_added)
-  added_by: number
+  @ManyToOne(() => UserProfile)
+  added_by!: UserProfile
 
-  @Column({ type: 'text' })
+  @Property()
   slug: string
 
-  @BeforeInsert()
-  generateSlug() {
+  @BeforeUpsert()
+  beforeCreate() {
     this.slug = slugify(this.name, '_')
     return this.slug
   }

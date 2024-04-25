@@ -1,94 +1,57 @@
-import { Column, Entity, JoinColumn, OneToMany } from 'typeorm'
-import {
-  Microservice,
-  MicroserviceInterface,
-  Technology,
-  TechnologyInterface,
-  News,
-  NewsInterface,
-} from '../site'
+import { Entity, PrimaryKey, Property, OneToMany } from '@mikro-orm/core'
+import { Microservice } from '../site/microservice.entity'
+import { Technology } from '../site/technology.entity'
+import { News } from '../site/news.entity'
 import { Sex, Gender, Sexuality, Pronoun, Country } from '../../enums'
 import { BaseEntity } from '../base.entity'
 
-export interface UserProfileInterface {
-  sid: number
-  firstName: string
-  middleName: string
-  lastName: string
-  avatar: string
-  birthday: Date
-  sex: Sex
-  Gender: Gender
-  sexualOrientation?: Sexuality
-  Pronoun: Pronoun
-  country: Country
-  microservices_added: MicroserviceInterface[]
-  technologies_added: TechnologyInterface[]
-  news_added: NewsInterface[]
-  email_verified: boolean
-  age_verified: boolean
-  updatedAt: Date
-  createdAt: Date
-}
-
 @Entity()
-/**
- * @class UserProfile
- * @description
- * A user profile is a collection of information about a user.
- */
 export class UserProfile extends BaseEntity {
-  @Column({ type: 'text', nullable: true })
-  firstName: string
+  @PrimaryKey()
+  sid!: number
 
-  @Column({ type: 'text', nullable: true })
-  middleName: string
+  @Property({ nullable: true })
+  firstName?: string
 
-  @Column({ type: 'text', nullable: true })
-  lastName: string
+  @Property({ nullable: true })
+  middleName?: string
 
-  @Column({ type: 'text', nullable: true })
-  avatar: string
+  @Property({ nullable: true })
+  lastName?: string
 
-  @Column({ type: 'text', nullable: true })
-  birthday: Date
+  @Property({ nullable: true })
+  avatar?: string
 
-  @Column({ type: 'enum', enum: Sex, default: Sex.PreferNotToSay })
-  sex: Sex
+  @Property({ nullable: true })
+  birthday?: Date
 
-  @Column({ type: 'enum', enum: Gender, default: Gender.PreferNotToSay })
-  Gender: Gender
+  @Property({ type: 'string', default: Sex.PreferNotToSay })
+  sex: Sex = Sex.PreferNotToSay
 
-  @Column({ type: 'enum', enum: Sexuality, default: Sexuality.PreferNotToSay })
+  @Property({ type: 'string', default: Gender.PreferNotToSay })
+  gender: Gender = Gender.PreferNotToSay
+
+  @Property({ type: 'string', default: Sexuality.PreferNotToSay, nullable: true })
   sexualOrientation?: Sexuality
 
-  @Column({ type: 'enum', enum: Pronoun, default: Pronoun.Other })
-  Pronoun: Pronoun
+  @Property({ type: 'string', default: Pronoun.Other })
+  pronoun: Pronoun = Pronoun.Other
 
-  @Column({ type: 'enum', enum: Country, default: Country.PreferNotToSay })
-  country: Country
+  @Property({ type: 'string', default: Country.PreferNotToSay })
+  country: Country = Country.PreferNotToSay
 
-  @OneToMany(() => Microservice, microservice => microservice.added_by, {
-    eager: true,
-  })
-  @JoinColumn()
-  microservices_added: Microservice[]
+  @OneToMany(() => Microservice, microservice => microservice.added_by, { eager: true })
+  microservices_added: Microservice[] = []
 
-  @OneToMany(() => Technology, technology => technology.added_by, {
-    eager: true,
-  })
-  @JoinColumn()
-  technologies_added: Technology[]
+  @OneToMany(() => Technology, technology => technology.added_by, { eager: true })
+  technologies_added: Technology[] = []
 
-  @OneToMany(() => News, news => news.added_by, {
-    eager: true,
-  })
-  @JoinColumn()
-  news_added: News[]
+  @OneToMany(() => News, news => news.added_by, { eager: true })
+  news_added: News[] = []
 
-  @Column({ type: 'boolean', default: false })
-  email_verified: boolean
+  @Property({ type: 'boolean', default: false })
+  email_verified = false
 
-  @Column({ type: 'boolean', default: false })
-  age_verified: boolean
+  @Property({ type: 'boolean', default: false })
+  age_verified = false
 }

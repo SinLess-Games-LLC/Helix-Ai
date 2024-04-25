@@ -14,6 +14,8 @@ import { ConfigGoogleInterface } from './interfaces/Google.interface'
 import { ConfigOpenAiInterface } from './interfaces/OpenAi.interface'
 import { ConfigTwitchInterface } from './interfaces/Twitch.interface'
 import { ConfigLavalinkInterface } from './interfaces/Lavalink.interface'
+import { MongoDriver } from '@mikro-orm/mongodb'
+import { MySqlDriver } from '@mikro-orm/mysql'
 import { colors, errCodes } from './config.type'
 import { IntentsBitField } from 'discord.js'
 dotenv.config()
@@ -219,6 +221,18 @@ export class HelixConfiguration {
     }
   }
 
+  private processMikroOrmDriver(value: string | undefined) {
+    if (value === 'mongo') {
+      return MongoDriver
+    }
+
+    if (value === 'mysql') {
+      return MySqlDriver
+    } else {
+      return undefined
+    }
+  }
+
   private processListOfIds(value: string | undefined): number[] | undefined {
     const unprocessed = value ? [value] : []
     const processed: number[] = []
@@ -263,19 +277,22 @@ export class HelixConfiguration {
   private loadDatabase() {
     const database: ConfigDatabaseInterface = {
       mongo_db: {
+        driver: MongoDriver,
         net: {
           host: process.env.MYSQL_HOST || 'localhost',
           port: parseInt(process.env.MONGODB_PORT) || 27017,
         },
         user: {
-          username: process.env.MONGODB_USER || '',
+          username: process.env.MONGODB_USERNAME || '',
           password: process.env.MONGODB_PASSWORD || '',
         },
         database: {
           name: process.env.MONGODB_DB_NAME || '',
+          URI: process.env.MONGODB_URI || '',
         },
       },
       mysql: {
+        driver: MySqlDriver,
         connection_url: process.env.MYSQL_DATABASE_URL || '',
         user: {
           username: process.env.MYSQL_USER || '',

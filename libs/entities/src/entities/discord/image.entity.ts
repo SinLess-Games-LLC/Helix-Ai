@@ -1,26 +1,26 @@
-import { Entity, Column } from 'typeorm'
+import { Entity, Property } from '@mikro-orm/core'
 import { BaseEntity } from '../base.entity'
 
 @Entity()
 export class Image extends BaseEntity {
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   fileName: string
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text', nullable: true })
   basePath?: string
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   url: string
 
-  @Column({ type: 'int' })
+  @Property({ columnType: 'int' })
   size: number
 
-  @Column('simple-array')
+  @Property({ columnType: 'simple-array' })
   tags: string[]
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   hash: string
 
-  @Column({ type: 'text' })
+  @Property({ columnType: 'text' })
   deleteHash: string
 }
