@@ -6,6 +6,7 @@ import {
   HelixLogger,
   errCodes,
   ErrorCodes,
+  configCatProvider,
 } from '@helix/helix-utilities'
 import express, { Express } from 'express'
 import { RootRouter } from '../routers/root.router'
@@ -64,6 +65,8 @@ export class HelixClient extends Client {
   public orm: MikroORM<MySqlDriver>
   public em: EntityManager<MySqlDriver>
 
+  public ConfigCatProvider = configCatProvider
+
   constructor(options: ClientOptions) {
     super(options)
   }
@@ -87,6 +90,9 @@ export class HelixClient extends Client {
       this.logger.info(`Registered ${this.commands.size} commands`)
       this._registerEvents()
       this.logger.info('Registered Events')
+      this.logger.info('Initializing ConfigCat')
+      this.ConfigCatProvider.initialize()
+      this.logger.info(`Config Cat Status: ${this.ConfigCatProvider.status}`)
       this.logger.info('Initializing Helix API')
       this.api.use(
         '/trpc',
