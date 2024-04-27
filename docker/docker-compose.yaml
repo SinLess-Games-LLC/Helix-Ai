@@ -13,7 +13,7 @@ services:
     extends:
       file: ./apps.yaml
       service: discord-bot
-  
+
   frontend:
     extends:
       file: ./apps.yaml
@@ -28,12 +28,12 @@ services:
     extends:
       file: ./bootstrap.yaml
       service: flipt
-  
+
   # consul-bootstrap:
   #   extends:
   #     file: ./consul.yaml
   #     service: consul-bootstrap
-  
+
   # consul-1:
   #   extends:
   #     file: ./consul.yaml
@@ -43,7 +43,7 @@ services:
   #       condition: service_completed_successfully
   #     vault-server:
   #       condition: service_healthy
-  
+
   # consul-2:
   #   extends:
   #     file: ./consul.yaml
@@ -55,7 +55,7 @@ services:
   #       condition: service_healthy
   #     consul-1:
   #       condition: service_healthy
-  
+
   # consul-3:
   #   extends:
   #     file: ./consul.yaml
@@ -67,7 +67,7 @@ services:
   #       condition: service_healthy
   #     consul-1:
   #       condition: service_healthy
-  
+
   # consul-client:
   #   extends:
   #     file: ./consul.yaml
@@ -77,12 +77,12 @@ services:
   #       condition: service_completed_successfully
   #     vault-server:
   #       condition: service_healthy
-  
+
   # vault-server:
   #   extends:
   #     file: ./consul.yaml
   #     service: vault-server
-  
+
   init-kafka-topics:
     extends:
       file: ./kafka.yaml
@@ -91,19 +91,19 @@ services:
       - kafka-0
       - kafka-1
       - kafka-2
-  
+
   kafka-0:
     extends:
       file: ./kafka.yaml
       service: kafka-0
-  
+
   kafka-1:
     extends:
       file: ./kafka.yaml
       service: kafka-1
     depends_on:
       - kafka-0
-  
+
   kafka-2:
     extends:
       file: ./kafka.yaml
@@ -111,17 +111,17 @@ services:
     depends_on:
       - kafka-0
       - kafka-1
-  
+
   lavalink:
     extends:
       file: ./lavalink.yaml
       service: lavalink
-  
+
   mysql:
     extends:
       file: ./mysql.yaml
       service: mysql
-  
+
   redis:
     extends:
       file: ./redis.yaml

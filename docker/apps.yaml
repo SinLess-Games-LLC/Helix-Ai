@@ -13,7 +13,7 @@ services:
       - helix
     ports:
       - '8001:8001'
-  
+
   frontend: &frontend
     image: sinless777/helix-frontend
     container_name: frontend

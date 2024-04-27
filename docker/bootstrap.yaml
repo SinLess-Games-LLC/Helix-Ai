@@ -19,11 +19,10 @@ services:
       - ./setup/scripts/security/certs.sh:/home/docker/config/certs.sh
     command: /bin/bash -c "chmod +x /home/docker/config/certs.sh && /home/docker/config/certs.sh"
 
-
   flipt: &flipt
     image: docker.flipt.io/flipt/flipt:latest
     ports:
-      - "8080:8080"
-      - "9000:9000"
+      - '8080:8080'
+      - '9000:9000'
     volumes:
-      - "./.data/flipt:/var/opt/flipt"
+      - './.data/flipt:/var/opt/flipt'
