@@ -5,7 +5,7 @@ networks:
     external: true
 
 services:
-  kafka-0:
+  kafka-0: &kafka-0
     image: bitnami/kafka:3.5
     container_name: kafka-0
     restart: on-failure
@@ -38,7 +38,7 @@ services:
     volumes:
       - ../.data/kafka/kafka-0:/bitnami/kafka
 
-  kafka-1:
+  kafka-1: &kafka-1
     image: bitnami/kafka:3.5
     container_name: kafka-1
     restart: on-failure
@@ -70,7 +70,7 @@ services:
     volumes:
       - ../.data/kafka/kafka-1:/bitnami/kafka
 
-  kafka-2:
+  kafka-2: &kafka-2
     image: bitnami/kafka:3.5
     container_name: kafka-2
     restart: on-failure
@@ -102,14 +102,10 @@ services:
     volumes:
       - ../.data/kafka/kafka-2:/bitnami/kafka
 
-  init-kafka-topics:
+  init-kafka-topics: &init-kafka-topics
     image: bitnami/kafka:3.5
     networks:
       - helix
-    depends_on:
-      - kafka-0
-      - kafka-1
-      - kafka-2
     entrypoint:
       - bash
       - -c
@@ -117,10 +113,6 @@ services:
         echo "Waiting for Kafka to be ready..."
         until /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka-0:9092 --command-config /etc/kafka/config.properties; do sleep 5; done;
         echo "Kafka is ready now, start creating topics."
-        /opt/bitnami/kafka/bin/kafka-topics.sh --create --if-not-exists --bootstrap-server kafka-0:9092 --partitions 1 --replication-factor 2 --topic featbit-feature-flag-change --command-config /etc/kafka/config.properties;
-        /opt/bitnami/kafka/bin/kafka-topics.sh --create --if-not-exists --bootstrap-server kafka-0:9092 --partitions 1 --replication-factor 2 --topic featbit-segment-change --command-config /etc/kafka/config.properties;
-        /opt/bitnami/kafka/bin/kafka-topics.sh --create --if-not-exists --bootstrap-server kafka-0:9092 --partitions 1 --replication-factor 2 --topic featbit-endusers --command-config /etc/kafka/config.properties;
-        /opt/bitnami/kafka/bin/kafka-topics.sh --create --if-not-exists --bootstrap-server kafka-0:9092 --partitions 6 --replication-factor 2 --topic featbit-insights --command-config /etc/kafka/config.properties;
         echo "Seed kafka topic finished."
     volumes:
       - ./infra/kafka/config.properties:/etc/kafka/config.properties

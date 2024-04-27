@@ -3,43 +3,33 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/frontend",
   "projectType": "application",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@nx/next:build",
-      "outputs": ["{options.outputPath}"],
-      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/frontend"
+        "root": "apps/frontend",
+        "outputPath": "dist/apps/frontend",
+        "tsConfig": "apps/frontend/tsconfig.app.json",
+        "assets": ["apps/frontend/public"],
+        "main": "apps/frontend/pages/_app.tsx",
+        "polyfills": "apps/frontend/polyfills.ts",
+        "fileReplacements": [
+          {
+            "replace": "apps/frontend/environments/environment.ts",
+            "with": "apps/frontend/environments/environment.prod.ts"
+          }
+        ]
       },
       "configurations": {
-        "development": {
-          "outputPath": "apps/frontend"
-        },
-        "production": {}
-      }
-    },
-    "serve": {
-      "executor": "@nx/next:server",
-      "defaultConfiguration": "development",
-      "options": {
-        "buildTarget": "frontend:build",
-        "dev": true
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "frontend:build:development",
-          "dev": true
-        },
         "production": {
-          "buildTarget": "frontend:build:production",
-          "dev": false
+          "fileReplacements": [
+            {
+              "replace": "apps/frontend/environments/environment.ts",
+              "with": "apps/frontend/environments/environment.prod.ts"
+            }
+          ]
         }
-      }
-    },
-    "export": {
-      "executor": "@nx/next:export",
-      "options": {
-        "buildTarget": "frontend:build:production"
       }
     },
     "test": {
@@ -49,13 +39,17 @@
         "jestConfig": "apps/frontend/jest.config.ts"
       }
     },
-    "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
+    "container": {
+      "executor": "@nx-tools/nx-container:build",
+      "dependsOn": ["build"],
       "options": {
-        "lintFilePatterns": ["apps/frontend/**/*.{ts,tsx,js,jsx}"]
+        "engine": "docker",
+        "metadata": {
+          "images": ["sinless777/helix-frontend"],
+          "load": true,
+          "tags": ["latest"]
+        }
       }
     }
-  },
-  "tags": []
+  }
 }

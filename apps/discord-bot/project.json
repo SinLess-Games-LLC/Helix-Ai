@@ -71,15 +71,9 @@
       "options": {
         "engine": "docker",
         "metadata": {
-          "images": ["discord-bot"],
+          "images": ["sinless777/helix-discord-bot"],
           "load": true,
-          "tags": [
-            "type=schedule",
-            "type=ref,event=branch",
-            "type=ref,event=tag",
-            "type=ref,event=pr",
-            "type=sha,prefix=sha-"
-          ]
+          "tags": ["latest"]
         }
       }
     }

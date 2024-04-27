@@ -13,7 +13,8 @@
     {
       "files": ["*.json"],
       "rules": {
-        "quotes": ["error", "double"]
+        "quotes": ["error", "double"],
+        "@typescript-eslint/no-unused-expressions": "off"
       }
     },
     {

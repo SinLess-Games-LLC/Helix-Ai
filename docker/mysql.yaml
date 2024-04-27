@@ -5,7 +5,7 @@ networks:
     external: true
 
 services:
-  mysql:
+  mysql: &mysql
     image: mysql:latest
     restart: always
     container_name: mysql
