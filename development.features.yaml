@@ -6,7 +6,7 @@ flags:
     name: Initial UI
     type: BOOLEAN_FLAG_TYPE
     enabled: false
-  
+
   - key: log-in-system
     name: Log In System
     type: BOOLEAN_FLAG_TYPE
@@ -22,7 +22,7 @@ segments:
     name: Helix AI Users
     inclusion_type: INCLUSION_TYPE
     enabled: false
-  
+
   - key: helix-ai-admins
     name: Helix AI Admins
     inclusion_type: INCLUSION_TYPE
@@ -42,5 +42,3 @@ segments:
     name: Helix AI System Admins
     inclusion_type: INCLUSION_TYPE
     enabled: false
-
-  
