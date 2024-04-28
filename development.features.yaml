@@ -21,24 +21,19 @@ segments:
   - key: helix-ai-users
     name: Helix AI Users
     inclusion_type: INCLUSION_TYPE
-    enabled: false
 
   - key: helix-ai-admins
     name: Helix AI Admins
     inclusion_type: INCLUSION_TYPE
-    enabled: false
 
   - key: helix-ai-owners
     name: Helix AI Owners
     inclusion_type: INCLUSION_TYPE
-    enabled: false
 
   - key: helix-ai-developers
     name: Helix AI Developers
     inclusion_type: INCLUSION_TYPE
-    enabled: false
 
   - key: helix-ai-system-admins
     name: Helix AI System Admins
     inclusion_type: INCLUSION_TYPE
-    enabled: false
