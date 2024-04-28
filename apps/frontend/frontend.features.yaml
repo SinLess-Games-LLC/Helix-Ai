@@ -1,0 +1,18 @@
+version: '1.2'
+namespace: Development
+
+flags:
+  - key: inital-ui
+    name: Initial UI
+    type: BOOLEAN_FLAG_TYPE
+    enabled: false
+
+  - key: log-in-system
+    name: Log In System
+    type: BOOLEAN_FLAG_TYPE
+    enabled: false
+
+  - key: user-roles
+    name: User Roles
+    type: BOOLEAN_FLAG_TYPE
+    enabled: false

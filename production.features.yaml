@@ -1,8 +1,23 @@
 version: '1.2'
 namespace: Production
 
-flags:
-  - key: log-in-system
-    name: Log In System
-    type: BOOLEAN_FLAG_TYPE
-    enabled: false
+segments:
+  - key: helix-ai-users
+    name: Helix AI Users
+    match_type: ALL_MATCH_TYPE
+
+  - key: helix-ai-admins
+    name: Helix AI Admins
+    match_type: ALL_MATCH_TYPE
+
+  - key: helix-ai-owners
+    name: Helix AI Owners
+    match_type: ALL_MATCH_TYPE
+
+  - key: helix-ai-developers
+    name: Helix AI Developers
+    match_type: ALL_MATCH_TYPE
+
+  - key: helix-ai-system-admins
+    name: Helix AI System Admins
+    match_type: ALL_MATCH_TYPE
