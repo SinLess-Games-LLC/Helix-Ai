@@ -2,7 +2,45 @@ version: '1.2'
 namespace: Development
 
 flags:
-  - key: inital-ui-setup
-    name: Initial UI Setup
+  - key: inital-ui
+    name: Initial UI
     type: BOOLEAN_FLAG_TYPE
     enabled: false
+  
+  - key: log-in-system
+    name: Log In System
+    type: BOOLEAN_FLAG_TYPE
+    enabled: false
+
+  - key: user-roles
+    name: User Roles
+    type: BOOLEAN_FLAG_TYPE
+    enabled: false
+
+segments:
+  - key: helix-ai-users
+    name: Helix AI Users
+    inclusion_type: INCLUSION_TYPE
+    enabled: false
+  
+  - key: helix-ai-admins
+    name: Helix AI Admins
+    inclusion_type: INCLUSION_TYPE
+    enabled: false
+
+  - key: helix-ai-owners
+    name: Helix AI Owners
+    inclusion_type: INCLUSION_TYPE
+    enabled: false
+
+  - key: helix-ai-developers
+    name: Helix AI Developers
+    inclusion_type: INCLUSION_TYPE
+    enabled: false
+
+  - key: helix-ai-system-admins
+    name: Helix AI System Admins
+    inclusion_type: INCLUSION_TYPE
+    enabled: false
+
+  
