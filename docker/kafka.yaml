@@ -1,0 +1,116 @@
+networks:
+  helix:
+    external: true
+
+services:
+  kafka-0: &kafka-0
+    image: bitnami/kafka:3.5
+    container_name: kafka-0
+    restart: on-failure
+    networks:
+      - helix
+    ports:
+      - '9092'
+      - '29092:29092'
+    environment:
+      # KRaft settings
+      KAFKA_CFG_NODE_ID: 0
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka-0:9093,1@kafka-1:9093,2@kafka-2:9093
+      KAFKA_KRAFT_CLUSTER_ID: abcdefghijklmnopqrstuv
+      # Listeners
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,PLAINTEXT_HOST://:29092,CONTROLLER://:9093
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka-0:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:SASL_PLAINTEXT,PLAINTEXT_HOST:SASL_PLAINTEXT,CONTROLLER:SASL_PLAINTEXT
+      KAFKA_CLIENT_USERS: kafka
+      KAFKA_CLIENT_PASSWORDS: bitnami
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_SASL_MECHANISM_CONTROLLER_PROTOCOL: PLAIN
+      KAFKA_CONTROLLER_USER: kafka
+      KAFKA_CONTROLLER_PASSWORD: bitnami
+      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CFG_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_INTER_BROKER_USER: kafka
+      KAFKA_INTER_BROKER_PASSWORD: bitnami
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    volumes:
+      - ../.data/kafka/kafka-0:/bitnami/kafka
+
+  kafka-1: &kafka-1
+    image: bitnami/kafka:3.5
+    container_name: kafka-1
+    restart: on-failure
+    networks:
+      - helix
+    ports:
+      - '9092'
+    environment:
+      # KRaft settings
+      KAFKA_CFG_NODE_ID: 1
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka-0:9093,1@kafka-1:9093,2@kafka-2:9093
+      KAFKA_KRAFT_CLUSTER_ID: abcdefghijklmnopqrstuv
+      # Listeners
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:SASL_PLAINTEXT,CONTROLLER:SASL_PLAINTEXT
+      KAFKA_CLIENT_USERS: kafka
+      KAFKA_CLIENT_PASSWORDS: bitnami
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_SASL_MECHANISM_CONTROLLER_PROTOCOL: PLAIN
+      KAFKA_CONTROLLER_USER: kafka
+      KAFKA_CONTROLLER_PASSWORD: bitnami
+      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CFG_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_INTER_BROKER_USER: kafka
+      KAFKA_INTER_BROKER_PASSWORD: bitnami
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    volumes:
+      - ../.data/kafka/kafka-1:/bitnami/kafka
+
+  kafka-2: &kafka-2
+    image: bitnami/kafka:3.5
+    container_name: kafka-2
+    restart: on-failure
+    networks:
+      - helix
+    ports:
+      - '9092'
+    environment:
+      # KRaft settings
+      KAFKA_CFG_NODE_ID: 2
+      KAFKA_CFG_PROCESS_ROLES: controller,broker
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 0@kafka-0:9093,1@kafka-1:9093,2@kafka-2:9093
+      KAFKA_KRAFT_CLUSTER_ID: abcdefghijklmnopqrstuv
+      # Listeners
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:SASL_PLAINTEXT,CONTROLLER:SASL_PLAINTEXT
+      KAFKA_CLIENT_USERS: kafka
+      KAFKA_CLIENT_PASSWORDS: bitnami
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_SASL_MECHANISM_CONTROLLER_PROTOCOL: PLAIN
+      KAFKA_CONTROLLER_USER: kafka
+      KAFKA_CONTROLLER_PASSWORD: bitnami
+      KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CFG_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_INTER_BROKER_USER: kafka
+      KAFKA_INTER_BROKER_PASSWORD: bitnami
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    volumes:
+      - ../.data/kafka/kafka-2:/bitnami/kafka
+
+  init-kafka-topics: &init-kafka-topics
+    image: bitnami/kafka:3.5
+    networks:
+      - helix
+    entrypoint:
+      - bash
+      - -c
+      - |
+        echo "Waiting for Kafka to be ready..."
+        until /opt/bitnami/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka-0:9092 --command-config /etc/kafka/config.properties; do sleep 5; done;
+        echo "Kafka is ready now, start creating topics."
+        echo "Seed kafka topic finished."
+    volumes:
+      - ./infra/kafka/config.properties:/etc/kafka/config.properties

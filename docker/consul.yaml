@@ -1,5 +1,4 @@
-version: '3.5'
-
+version: '3.7'
 networks:
   consul:
     external: true
@@ -7,7 +6,7 @@ networks:
     external: true
 
 services:
-  consul-bootstrap:
+  consul-bootstrap: &consul-bootstrap
     build:
       context: .
       dockerfile: ./setup/Dockerfile
@@ -25,7 +24,7 @@ services:
       - /bin/bash
       - /home/docker/config/consul.sh
 
-  consul-server-1:
+  consul-server-1: &consul-server-1
     image: hashicorp/consul:1.17.1
     container_name: consul-server-1
     hostname: consul-server-1
@@ -33,11 +32,6 @@ services:
       - consul
       - helix
     restart: always
-    depends_on:
-      consul-bootstrap:
-        condition: service_completed_successfully
-      vault-server:
-        condition: service_healthy
     volumes:
       - ./consul/config/server-1:/consul/config
       - ./consul/generated/consul-certs/:/consul/config/certs/
@@ -54,7 +48,7 @@ services:
       timeout: 5s
       retries: 12
 
-  consul-server-2:
+  consul-server-2: &consul-server-2
     image: hashicorp/consul:1.17.1
     container_name: consul-server-2
     hostname: consul-server-2
@@ -62,13 +56,6 @@ services:
       - consul
       - helix
     restart: always
-    depends_on:
-      consul-bootstrap:
-        condition: service_completed_successfully
-      vault-server:
-        condition: service_healthy
-      consul-server-1:
-        condition: service_healthy
     volumes:
       - ./consul/config/server-2:/consul/config
       - ./consul/generated/consul-certs/:/consul/config/certs/
@@ -80,7 +67,7 @@ services:
       timeout: 5s
       retries: 12
 
-  consul-server-3:
+  consul-server-3: &consul-server-3
     image: hashicorp/consul:1.17.1
     container_name: consul-server-3
     hostname: consul-server-3
@@ -88,13 +75,6 @@ services:
       - consul
       - helix
     restart: always
-    depends_on:
-      consul-bootstrap:
-        condition: service_completed_successfully
-      vault-server:
-        condition: service_healthy
-      consul-server-1:
-        condition: service_healthy
     volumes:
       - ./consul/config/server-3:/consul/config
       - ./consul/generated/consul-certs/:/consul/config/certs/
@@ -106,16 +86,11 @@ services:
       timeout: 5s
       retries: 12
 
-  consul-client:
+  consul-client: &consul-client
     image: hashicorp/consul:1.17.1
     container_name: consul-client
     hostname: consul-client
     restart: always
-    depends_on:
-      consul-bootstrap:
-        condition: service_completed_successfully
-      vault-server:
-        condition: service_healthy
     volumes:
       - ./consul/config/client-1:/consul/config
       - ./consul/generated/consul-intro-token-key:/consul/token
@@ -125,7 +100,7 @@ services:
       - helix
     command: 'agent'
 
-  vault-server:
+  vault-server: &vault-server
     image: hashicorp/vault:1.15.4
     container_name: vault-server
     hostname: vault-server

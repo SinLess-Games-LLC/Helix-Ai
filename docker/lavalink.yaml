@@ -1,11 +1,9 @@
-version: '3.8'
-
 networks:
   helix:
     external: true
 
 services:
-  lavalink:
+  lavalink: &lavalink
     image: ghcr.io/lavalink-devs/lavalink:3.7.10
     restart: unless-stopped
     networks:

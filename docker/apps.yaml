@@ -1,17 +1,22 @@
-version: '3.9'
-
 networks:
   helix:
     external: true
 
 services:
-  discord-bot:
-    build:
-      context: .
-      dockerfile: ./apps/discord-bot/Dockerfile
+  discord-bot: &discord-bot
+    image: sinless777/helix-discord-bot
     container_name: discord-bot
     hostname: discord-bot
     networks:
       - helix
     ports:
       - '8001:8001'
+
+  frontend: &frontend
+    image: sinless777/helix-frontend
+    container_name: frontend
+    hostname: frontend
+    networks:
+      - helix
+    ports:
+      - '8000:3000'

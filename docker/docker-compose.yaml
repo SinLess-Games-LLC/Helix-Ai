@@ -1,0 +1,142 @@
+name: helix-ai-plartform
+
+networks:
+  consul:
+    name: consul
+    driver: bridge
+  helix:
+    name: helix
+    driver: bridge
+
+services:
+  #
+  # These are the services that are part of the Helix AI Platform
+  # the apps are commented out because they ar uneeded at this time.
+  #
+  # discord-bot:
+  #   extends:
+  #     file: ./apps.yaml
+  #     service: discord-bot
+
+  # frontend:
+  #   extends:
+  #     file: ./apps.yaml
+  #     service: frontend
+
+  bootstrap:
+    extends:
+      file: ./bootstrap.yaml
+      service: bootstrap
+
+  flipt: &flipt
+    image: docker.flipt.io/flipt/flipt:latest
+    restart: always
+    container_name: flipt
+    networks:
+      - helix
+    environment:
+      FLIPT_STORAGE_TYPE: 'git'
+      FLIPT_STORAGE_GIT_REPOSITORY: 'https://github.com/SinLess-Games-LLC/Helix-Ai.git'
+      FLIPT_STORAGE_GIT_REF: 'master'
+      FLIPT_STORAGE_GIT_POLL_INTERVAL: '30s'
+    ports:
+      - '8080:8080'
+      - '9000:9000'
+
+  # consul-bootstrap:
+  #   extends:
+  #     file: ./consul.yaml
+  #     service: consul-bootstrap
+
+  # consul-1:
+  #   extends:
+  #     file: ./consul.yaml
+  #     service: consul-server-1
+  #   depends_on:
+  #     consul-bootstrap:
+  #       condition: service_completed_successfully
+  #     vault-server:
+  #       condition: service_healthy
+
+  # consul-2:
+  #   extends:
+  #     file: ./consul.yaml
+  #     service: consul-server-2
+  #   depends_on:
+  #     consul-bootstrap:
+  #       condition: service_completed_successfully
+  #     vault-server:
+  #       condition: service_healthy
+  #     consul-1:
+  #       condition: service_healthy
+
+  # consul-3:
+  #   extends:
+  #     file: ./consul.yaml
+  #     service: consul-server-3
+  #   depends_on:
+  #     consul-bootstrap:
+  #       condition: service_completed_successfully
+  #     vault-server:
+  #       condition: service_healthy
+  #     consul-1:
+  #       condition: service_healthy
+
+  # consul-client:
+  #   extends:
+  #     file: ./consul.yaml
+  #     service: consul-client
+  #   depends_on:
+  #     consul-bootstrap:
+  #       condition: service_completed_successfully
+  #     vault-server:
+  #       condition: service_healthy
+
+  # vault-server:
+  #   extends:
+  #     file: ./consul.yaml
+  #     service: vault-server
+
+  init-kafka-topics:
+    extends:
+      file: ./kafka.yaml
+      service: init-kafka-topics
+    depends_on:
+      - kafka-0
+      - kafka-1
+      - kafka-2
+
+  kafka-0:
+    extends:
+      file: ./kafka.yaml
+      service: kafka-0
+
+  kafka-1:
+    extends:
+      file: ./kafka.yaml
+      service: kafka-1
+    depends_on:
+      - kafka-0
+
+  kafka-2:
+    extends:
+      file: ./kafka.yaml
+      service: kafka-2
+    depends_on:
+      - kafka-0
+      - kafka-1
+
+  lavalink:
+    extends:
+      file: ./lavalink.yaml
+      service: lavalink
+
+  helix-mysql:
+    extends:
+      file: ./mysql.yaml
+      service: helix-mysql
+
+  redis:
+    extends:
+      file: ./redis.yaml
+      service: redis

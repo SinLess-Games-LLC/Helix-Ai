@@ -1,3 +1,5 @@
 {
-  "eslint.validate": ["json"]
+  "eslint.validate": ["json"],
+  "configcat.productId": "08dc6585-fb85-4856-8632-61bf1c0b55e1",
+  "configcat.configId": "08dc6585-fb9b-4a34-8e3f-7fdd7353076a"
 }
