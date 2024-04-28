@@ -37,7 +37,7 @@ services:
     environment:
       FLIPT_STORAGE_TYPE: 'git'
       FLIPT_STORAGE_GIT_REPOSITORY: 'https://github.com/SinLess-Games-LLC/Helix-Ai.git'
-      FLIPT_STORAGE_GIT_REF: 'master'
+      FLIPT_STORAGE_GIT_REF: 'develop'
       FLIPT_STORAGE_GIT_POLL_INTERVAL: '30s'
     ports:
       - '8080:8080'

@@ -1,5 +1,5 @@
 version: '1.2'
-namespace: development
+namespace: Development
 
 flags:
   - key: inital-ui-setup

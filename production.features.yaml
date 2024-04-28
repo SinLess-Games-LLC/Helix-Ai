@@ -1,5 +1,5 @@
 version: '1.2'
-namespace: production
+namespace: Production
 
 flags:
   - key: log-in-system
