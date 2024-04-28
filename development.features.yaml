@@ -1,2 +1,8 @@
 version: '1.2'
 namespace: development
+
+flags:
+  - key: inital-ui-setup
+    name: Initial UI Setup
+    type: BOOLEAN_FLAG_TYPE
+    enabled: false
