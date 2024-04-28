@@ -1,5 +1,4 @@
-version: '3.8'
-
+version: '3.7'
 networks:
   helix:
     external: true
@@ -15,7 +14,7 @@ services:
     networks:
       - helix
     volumes:
-      - ../.data/redis:/data
+      - '../.data/redis:/data'
     ports:
       - '6379:6379'
     healthcheck:

@@ -4,7 +4,7 @@
 set -e
 
 # Directories
-CONFIG_DIR=/config
+CONFIG_DIR=/app/data
 OUTPUT_DIR=/certs
 CA_DIR=$OUTPUT_DIR/certificate_authority
 KEY_STORES_DIR=$OUTPUT_DIR/keystores
@@ -285,6 +285,9 @@ run() {
   create_certificates
   # Sleep for 1 seconds
   sleep 1
+
+  # Create Sucess marker file
+  sudo touch /certs/success
 
   printf "=========================================================\n"
   printf "=========================================================\n"

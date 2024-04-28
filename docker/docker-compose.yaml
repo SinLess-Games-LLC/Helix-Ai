@@ -9,25 +9,39 @@ networks:
     driver: bridge
 
 services:
-  discord-bot:
-    extends:
-      file: ./apps.yaml
-      service: discord-bot
+  #
+  # These are the services that are part of the Helix AI Platform
+  # the apps are commented out because they ar uneeded at this time.
+  #
+  # discord-bot:
+  #   extends:
+  #     file: ./apps.yaml
+  #     service: discord-bot
 
-  frontend:
-    extends:
-      file: ./apps.yaml
-      service: frontend
+  # frontend:
+  #   extends:
+  #     file: ./apps.yaml
+  #     service: frontend
 
   bootstrap:
     extends:
       file: ./bootstrap.yaml
       service: bootstrap
 
-  flipt:
-    extends:
-      file: ./bootstrap.yaml
-      service: flipt
+  flipt: &flipt
+    image: docker.flipt.io/flipt/flipt:latest
+    restart: always
+    container_name: flipt
+    networks:
+      - helix
+    environment:
+      FLIPT_STORAGE_TYPE: 'git'
+      FLIPT_STORAGE_GIT_REPOSITORY: 'https://github.com/SinLess-Games-LLC/Helix-Ai.git'
+      FLIPT_STORAGE_GIT_REF: 'master'
+      FLIPT_STORAGE_GIT_POLL_INTERVAL: '30s'
+    ports:
+      - '8080:8080'
+      - '9000:9000'
 
   # consul-bootstrap:
   #   extends:
@@ -117,10 +131,10 @@ services:
       file: ./lavalink.yaml
       service: lavalink
 
-  mysql:
+  helix-mysql:
     extends:
       file: ./mysql.yaml
-      service: mysql
+      service: helix-mysql
 
   redis:
     extends:

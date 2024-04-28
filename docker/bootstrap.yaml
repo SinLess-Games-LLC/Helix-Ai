@@ -1,5 +1,4 @@
-version: '3.5'
-
+version: '3.7'
 networks:
   helix:
     external: true
@@ -7,22 +6,18 @@ networks:
 services:
   bootstrap: &bootstrap
     build:
-      context: .
+      context: ./
       dockerfile: ./setup/Dockerfile
+    image: sinless777/helix-bootstrap
     container_name: bootstrap
     hostname: bootstrap
     networks:
       - helix
     volumes:
-      - ./setup/config.yaml:/home/docker/config/config.yaml
-      - ./certs:/certs/
-      - ./setup/scripts/security/certs.sh:/home/docker/config/certs.sh
-    command: /bin/bash -c "chmod +x /home/docker/config/certs.sh && /home/docker/config/certs.sh"
-
-  flipt: &flipt
-    image: docker.flipt.io/flipt/flipt:latest
-    ports:
-      - '8080:8080'
-      - '9000:9000'
-    volumes:
-      - './.data/flipt:/var/opt/flipt'
+      - '../.data/certs:/certs/'
+    command: /bin/bash -c "/app/data/scripts/security/certs.sh"
+    healthcheck:
+      test: ['CMD', 'stat', '/certs/sucess']
+      interval: 30s
+      timeout: 10s
+      retries: 5
