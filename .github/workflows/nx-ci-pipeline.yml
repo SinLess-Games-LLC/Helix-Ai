@@ -38,7 +38,7 @@ jobs:
           key: npm-dependencies-${{ hashFiles('package-lock.json') }}
 
       # Install Packages
-      - run: npm install @nx/nx-linux-x64-gnu --force
+      - run: npm install @nx/nx-linux-x64-gnu
       - run: npm ci
 
       # Cache npm deps
