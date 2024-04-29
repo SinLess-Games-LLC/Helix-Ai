@@ -10,10 +10,6 @@ segments:
     name: Helix AI Admins
     match_type: ALL_MATCH_TYPE
     constraints:
-      - property: email
-        operator: CONTAINS
-        value: '@helixai.com'
-        type: STRING_COMPARISON_TYPE
       - property: organization
         operator: eq
         value: 'Helix AI'
