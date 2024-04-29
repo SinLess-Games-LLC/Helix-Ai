@@ -14,7 +14,8 @@ const BackgroundContainer = styled.div<BackgroundProps>`
   height: 100%;
   z-index: -1;
   background-image: url(${props => props.$image});
-  background-size: cover;
+  background-size: 100% 100%;
+  background-repeat: no-repeat
   background-position: center;
 `
 
