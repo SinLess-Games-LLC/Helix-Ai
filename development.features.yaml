@@ -23,7 +23,6 @@ segments:
         value: 'Admin'
         type: STRING_COMPARISON_TYPE
 
-
   - key: helix-ai-owners
     name: Helix AI Owners
     match_type: ALL_MATCH_TYPE
