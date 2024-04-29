@@ -5,7 +5,7 @@ flags:
   - key: inital-ui
     name: Initial UI
     type: BOOLEAN_FLAG_TYPE
-    enabled: false
+    enabled: true
 
   - key: log-in-system
     name: Log In System
