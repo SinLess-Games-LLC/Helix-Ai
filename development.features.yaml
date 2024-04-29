@@ -15,11 +15,11 @@ segments:
         value: '@helixai.com'
         type: STRING_COMPARISON_TYPE
       - property: organization
-        operator: EQUALS
+        operator: eq
         value: 'Helix AI'
         type: STRING_COMPARISON_TYPE
       - property: role
-        operator: EQUALS
+        operator: eq
         value: 'Admin'
         type: STRING_COMPARISON_TYPE
 
@@ -27,16 +27,12 @@ segments:
     name: Helix AI Owners
     match_type: ALL_MATCH_TYPE
     constraints:
-      - property: email
-        operator: CONTAINS
-        value: '@helixai.com'
-        type: STRING_COMPARISON_TYPE
       - property: organization
-        operator: EQUALS
+        operator: eq
         value: 'Helix AI'
         type: STRING_COMPARISON_TYPE
       - property: role
-        operator: EQUALS
+        operator: eq
         value: 'Owner'
         type: STRING_COMPARISON_TYPE
 
@@ -44,16 +40,12 @@ segments:
     name: Helix AI Developers
     match_type: ALL_MATCH_TYPE
     constraints:
-      - property: email
-        operator: CONTAINS
-        value: '@helixai.com'
-        type: STRING_COMPARISON_TYPE
       - property: organization
-        operator: EQUALS
+        operator: eq
         value: 'Helix AI'
         type: STRING_COMPARISON_TYPE
       - property: role
-        operator: EQUALS
+        operator: eq
         value: 'Developer'
         type: STRING_COMPARISON_TYPE
 
@@ -61,15 +53,11 @@ segments:
     name: Helix AI System Admins
     match_type: ALL_MATCH_TYPE
     constraints:
-      - property: email
-        operator: CONTAINS
-        value: '@helixai.com'
-        type: STRING_COMPARISON_TYPE
       - property: organization
-        operator: EQUALS
+        operator: eq
         value: 'Helix AI'
         type: STRING_COMPARISON_TYPE
       - property: role
-        operator: EQUALS
+        operator: eq
         value: 'System Admin'
         type: STRING_COMPARISON_TYPE
