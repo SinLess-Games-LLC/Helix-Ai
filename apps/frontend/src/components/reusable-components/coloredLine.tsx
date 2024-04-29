@@ -1,5 +1,5 @@
-import React from "react"
-import styles from "./coloredLine.module.scss"
+import React from 'react'
+import styles from './coloredLine.module.scss'
 
 interface ColoredLineProps {
   color: string
@@ -11,10 +11,10 @@ const ColoredLine = ({ color }: ColoredLineProps) => {
       className={styles.coloredLine}
       style={{
         border: 0,
-        height: "0.5rem",
-        width: "auto",
-        borderRadius: "1rem",
-        backgroundColor: `${color}`
+        height: '0.5rem',
+        width: 'auto',
+        borderRadius: '1rem',
+        backgroundColor: `${color}`,
       }}
     />
   )

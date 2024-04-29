@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react"
-import Card, { CardProps } from "./card"
+import React, { useEffect, useRef, useState } from 'react'
+import Card, { CardProps } from './card'
 
 interface CarouselProps {
   items: CardProps[]
@@ -16,7 +16,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
         setCurrentIndex(newIndex)
         carouselRef.current.scrollTo({
           left: newIndex * carouselRef.current.offsetWidth,
-          behavior: "smooth"
+          behavior: 'smooth',
         })
       }
     }, 10000)
@@ -25,15 +25,10 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
   }, [currentIndex, items.length])
 
   return (
-    <div style={{ maxHeight: "300px", overflowX: "scroll" }} ref={carouselRef}>
+    <div style={{ maxHeight: '300px', overflowX: 'scroll' }} ref={carouselRef}>
       {items.map((item, index) => (
-        <div key={index} style={{ display: "inline-block" }}>
-          <Card
-            title={item.title}
-            description=""
-            image={item.image}
-            link={item.link}
-          />
+        <div key={index} style={{ display: 'inline-block' }}>
+          <Card title={item.title} description="" image={item.image} link={item.link} />
         </div>
       ))}
     </div>
