@@ -60,7 +60,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "discord-rpc": "^4.0.1",
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.15.3",
     "dotenv": "~16.4.0",
     "fastify": "^4.26.2",
     "http-status-codes": "~2.3.0",
