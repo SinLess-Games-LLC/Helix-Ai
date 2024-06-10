@@ -113,7 +113,7 @@
     "@swc/cli": "~0.3.0",
     "@swc/core": "~1.5.0",
     "@swc/plugin-styled-components": "^2.0.0",
-    "@testing-library/react": "15.0.4",
+    "@testing-library/react": "15.0.7",
     "@types/bcrypt": "^5.0.2",
     "@types/better-sqlite3": "~7.6.3",
     "@types/body-parser": "^1.19.2",
