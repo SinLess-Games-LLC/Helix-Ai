@@ -91,7 +91,7 @@
     "@mikro-orm/cli": "^6.2.2",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
-    "@nx-tools/container-metadata": "^5.1.0",
+    "@nx-tools/container-metadata": "^6.0.0",
     "@nx-tools/nx-container": "^6.0.0",
     "@nx/cypress": "18.3.5",
     "@nx/devkit": "18.3.5",
