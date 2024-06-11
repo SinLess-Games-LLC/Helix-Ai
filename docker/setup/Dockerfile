@@ -2,7 +2,7 @@
 # Build stage
 ############################################################################################################
 
-FROM python:3.12.3-slim AS builder
+FROM python:3.12.4-slim AS builder
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -25,7 +25,7 @@ RUN dos2unix /app/data/scripts/security/certs.sh
 # Runtime stage
 ############################################################################################################
 
-FROM python:3.12.3-slim
+FROM python:3.12.4-slim
 
 # Copy built files from the previous stage
 COPY --from=builder /app /app
