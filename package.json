@@ -21,7 +21,7 @@
     "@mikro-orm/migrations": "^6.2.2",
     "@mikro-orm/mongodb": "^6.2.2",
     "@mikro-orm/mysql": "^6.2.2",
-    "@mikro-orm/nestjs": "^5.2.3",
+    "@mikro-orm/nestjs": "^6.0.0",
     "@mikro-orm/reflection": "^6.2.2",
     "@mikro-orm/seeder": "^6.2.2",
     "@mikro-orm/sqlite": "^6.2.2",
