@@ -137,7 +137,7 @@
     "babel-plugin-styled-components": "2.1.4",
     "chokidar": "~3.6.0",
     "cypress": "^13.0.0",
-    "esbuild": "^0.19.11",
+    "esbuild": "^0.23.0",
     "eslint": "~8.57.0",
     "eslint-config-next": "14.2.3",
     "eslint-config-prettier": "^9.0.0",
